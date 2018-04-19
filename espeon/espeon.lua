@@ -18,7 +18,7 @@ return function()
   if commands[command] then
     commands[command].execute(platform, serial_port)
   else
-    print('espeon v0.1-0')
+    print('espeon')
     print('Usage: espeon <command>')
     print()
     print('Available commands:')

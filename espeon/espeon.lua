@@ -5,20 +5,20 @@ return function()
   local command = table.concat(arg, '_')
 
   local commands = {
-    boostrap = require 'espeon.command.bootstrap',
     console = require 'espeon.command.console',
     erase = require 'espeon.command.erase',
     flash = require 'espeon.command.flash',
     flash_firmware = require 'espeon.command.flash_firmware',
     format = require 'espeon.command.format',
     init = require 'espeon.command.init',
+    install_dependencies = require 'espeon.command.install_dependencies',
     reset = require 'espeon.command.reset'
   }
 
   if commands[command] then
     commands[command].execute(platform, serial_port)
   else
-    print('espeon v0.1-0')
+    print('espeon')
     print('Usage: espeon <command>')
     print()
     print('Available commands:')

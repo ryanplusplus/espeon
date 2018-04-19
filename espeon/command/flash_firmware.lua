@@ -7,7 +7,7 @@ local esp_init_data_default_bin = datafile.path('res/esp_init_data_default.bin')
 local blank_bin = datafile.path('res/blank.bin')
 
 return {
-  description = 'Flash the firmware specified in ./espeon.conf to a connected ESP8266',
+  description = 'Flash the firmware specified in ./espeon_config.lua to a connected ESP8266',
 
   execute =  function(platform, serial_port)
     local config = load_config()

@@ -8,14 +8,14 @@ return {
       exec({
         'sudo apt install screen',
         'sudo apt install python-pip',
-        'sudo pip install esptool',
-        'sudo pip install nodemcu-uploader'
+        'sudo pip install esptool --upgrade',
+        'sudo pip install nodemcu-uploader --upgrade'
       })
     elseif platform == 'mac' then
       exec({
         'sudo easy_install pip',
-        'sudo pip install esptool',
-        'sudo pip install nodemcu-uploader',
+        'sudo pip install esptool --upgrade',
+        'sudo pip install nodemcu-uploader --upgrade',
         'curl "http://www.wch.cn/downfile/178" -o "usb-to-uart-driver.zip"',
         'unzip usb-to-uart-driver.zip',
         'rm usb-to-uart-driver.zip',

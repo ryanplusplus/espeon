@@ -9,7 +9,11 @@ return {
     local source = table.concat(config.source or {}, ' ')
     local data = table.concat(config.data or {}, ' ')
 
-    local commands = {}
+    local commands = {
+      'nodemcu-uploader --port ' .. serial_port .. ' file remove init.lua',
+      'nodemcu-uploader --port ' .. serial_port .. ' file remove init.lc',
+      'nodemcu-uploader --port ' .. serial_port .. ' node restart'
+    }
     if data ~= '' then
       table.insert(commands, 'nodemcu-uploader --port ' .. serial_port .. ' upload ' .. data)
     end

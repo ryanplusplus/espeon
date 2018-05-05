@@ -6,7 +6,7 @@ local espeon_conf = datafile.path('res/espeon.conf')
 return {
   description = 'Write a default espeon.conf to .',
 
-  execute =  function(platform, serial_port)
+  execute = function()
     exec('cp ' .. espeon_conf .. ' .')
   end
 }

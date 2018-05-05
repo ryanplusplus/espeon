@@ -1,7 +1,4 @@
 return function()
-  local platform = require 'espeon.util.detect_platform'()
-  local serial_port = require 'espeon.util.detect_serial_port'()
-
   local command = table.concat(arg, '_')
 
   local commands = {
@@ -16,7 +13,7 @@ return function()
   }
 
   if commands[command] then
-    commands[command].execute(platform, serial_port)
+    commands[command].execute()
   else
     print('espeon')
     print('Usage: espeon <command>')

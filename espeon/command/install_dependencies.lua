@@ -1,9 +1,12 @@
 local exec = require 'espeon.util.exec'
+local detect_platform = require 'espeon.util.detect_platform'
 
 return {
   description = 'Install all external dependencies',
 
-  execute = function(platform, serial_port)
+  execute = function()
+    local platform = detect_platform()
+
     if platform == 'linux' then
       exec({
         'sudo apt install screen',

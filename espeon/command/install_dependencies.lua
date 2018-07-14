@@ -12,18 +12,16 @@ return {
         'sudo apt install screen',
         'sudo apt install python-pip',
         'sudo pip install esptool --upgrade',
-        'sudo pip install nodemcu-uploader --upgrade'
+        'which npm > /dev/null || sudo apt install nodejs',
+        'npm install -g nodemcu-tool || sudo npm install -g nodemcu-tool'
       })
     elseif platform == 'mac' then
       exec({
         'sudo easy_install pip',
         'sudo pip install esptool --upgrade',
-        'sudo pip install nodemcu-uploader --upgrade',
-        'curl "http://www.wch.cn/downfile/178" -o "usb-to-uart-driver.zip"',
-        'unzip usb-to-uart-driver.zip',
-        'rm usb-to-uart-driver.zip',
-        'sudo installer -store -pkg "CH341SER_MAC/CH34x_Install_V1.4.pkg" -target',
-        'rm CH341SER_MAC/CH34x_Install_V1.4.pkg'
+        'which brew > /dev/null || /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"',
+        'which npm > /dev/null || brew install node',
+        'npm install -g nodemcu-tool || sudo npm install -g nodemcu-tool'
       })
     end
   end

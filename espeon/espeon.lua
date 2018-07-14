@@ -7,6 +7,7 @@ return function()
     flash = require 'espeon.command.flash',
     flash_firmware = require 'espeon.command.flash_firmware',
     format = require 'espeon.command.format',
+    fs = require 'espeon.command.fs',
     init = require 'espeon.command.init',
     install_dependencies = require 'espeon.command.install_dependencies',
     reset = require 'espeon.command.reset'

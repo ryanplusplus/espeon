@@ -25,16 +25,16 @@ return {
 
     if data ~= '' then
       table.insert(commands, reset)
-      table.insert(commands, 'nodemcu-tool --port ' .. serial_port .. ' upload ' .. data)
+      table.insert(commands, 'nodemcu-tool --port ' .. serial_port .. ' --keeppath upload ' .. data)
     end
 
     if source ~= '' then
       table.insert(commands, reset)
-      table.insert(commands, 'nodemcu-tool --port ' .. serial_port .. ' upload --compile ' .. source)
+      table.insert(commands, 'nodemcu-tool --port ' .. serial_port .. ' --keeppath upload --compile ' .. source)
     end
 
     table.insert(commands, reset)
-    table.insert(commands, 'nodemcu-tool --port ' .. serial_port .. ' upload ' .. init_lua)
+    table.insert(commands, 'nodemcu-tool --port ' .. serial_port .. ' --keeppath upload ' .. init_lua)
 
     exec(commands)
   end

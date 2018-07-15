@@ -2,10 +2,8 @@ require = function(m)
   return dofile(m .. '.lc')
 end
 
-tmr.create():alarm(2000, tmr.ALARM_SINGLE, function()
-  local ok, err = pcall(function()
+tmr.create():alarm(1250, tmr.ALARM_SINGLE, function()
+  xpcall(function()
     require 'init'
-  end)
-
-  if not ok then print(err) end
+  end, print)
 end)

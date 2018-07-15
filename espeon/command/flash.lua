@@ -14,7 +14,7 @@ return {
     local source = table.concat(config.source or {}, ' ')
     local data = table.concat(config.data or {}, ' ')
 
-    local reset = 'nodemcu-tool --port ' .. serial_port .. ' reset && sleep 1.0'
+    local reset = 'nodemcu-tool --port ' .. serial_port .. ' reset && sleep 1.1'
 
     local commands = {
       reset,
@@ -25,12 +25,12 @@ return {
 
     if data ~= '' then
       table.insert(commands, reset)
-      table.insert(commands, 'nodemcu-tool --port ' .. serial_port .. ' upload ' .. data .. ' --keeppath')
+      table.insert(commands, 'nodemcu-tool --port ' .. serial_port .. ' upload --keeppath ' .. data)
     end
 
     if source ~= '' then
       table.insert(commands, reset)
-      table.insert(commands, 'nodemcu-tool --port ' .. serial_port .. ' upload --compile ' .. source .. ' --keeppath')
+      table.insert(commands, 'nodemcu-tool --port ' .. serial_port .. ' upload --compile ' .. source)
     end
 
     table.insert(commands, reset)

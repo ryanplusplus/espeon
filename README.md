@@ -22,5 +22,5 @@ espeon <command> [arguments]
   - `fs` - Show filesystem information for a connected ESP running NodeMCU
   - `init` - Write a default `espeon.conf` to `.`
   - `install_dependencies` - Install all external dependencies
-  - `reset` - Resets a connected ESP running NodeMCU
+  - `reset` - Reset a connected ESP running NodeMCU
   - `upload` - Upload the source and data specified in `./espeon.conf` if no arguments are provided; upload the specified file if an argument is provided

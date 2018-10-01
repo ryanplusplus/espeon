@@ -16,7 +16,7 @@ return {
     local source = table.concat(config.source or {}, ' ')
     local data = table.concat(config.data or {}, ' ')
 
-    local reset = 'nodemcu-tool --port ' .. serial_port .. ' reset && sleep 1.1'
+    local reset = 'nodemcu-tool --port ' .. serial_port .. ' reset && sleep 1.3'
 
     local commands = {
       reset,

@@ -27,6 +27,7 @@ build = {
     ['espeon.command.reset'] = 'espeon/command/reset.lua',
     ['espeon.command.upload'] = 'espeon/command/upload.lua',
     ['espeon.espeon'] = 'espeon/espeon.lua',
+    ['espeon.util.compile'] = 'espeon/util/compile.lua',
     ['espeon.util.detect_platform'] = 'espeon/util/detect_platform.lua',
     ['espeon.util.detect_serial_port'] = 'espeon/util/detect_serial_port.lua',
     ['espeon.util.exec'] = 'espeon/util/exec.lua',
@@ -40,6 +41,6 @@ build = {
     }
   },
   copy_directories = {
-     'res',
+    'res'
   }
 }

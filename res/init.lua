@@ -4,6 +4,6 @@ end
 
 tmr.create():alarm(1250, tmr.ALARM_SINGLE, function()
   xpcall(function()
-    require 'init'
+    require 'app'
   end, print)
 end)

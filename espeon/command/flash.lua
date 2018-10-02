@@ -14,7 +14,7 @@ return {
       exec('esptool.py --baud 115200 --port ' .. serial_port .. ' write_flash ' .. offset .. ' ' .. bin)
       end
     else
-      local offset = config.esp32 and '0x10000' or '0x0'
+      local offset = (config.target == 'ESP32') and '0x10000' or '0x0'
       exec('esptool.py --baud 115200 --port ' .. serial_port .. ' write_flash ' .. offset .. ' ' .. config.firmware)
     end
 

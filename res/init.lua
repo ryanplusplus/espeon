@@ -1,9 +1,5 @@
-require = function(m)
-  return dofile(m .. '.lc')
-end
-
-tmr.create():alarm(1500, tmr.ALARM_SINGLE, function()
+tmr.create():alarm(1600, tmr.ALARM_SINGLE, function()
   xpcall(function()
-    require 'app'
+    dofile('app.lc')
   end, print)
 end)

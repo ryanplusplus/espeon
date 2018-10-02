@@ -8,7 +8,7 @@ local compile = require 'espeon.util.compile'
 local init_lua = datafile.path('res/init.lua')
 
 return {
-  description = 'Upload the source and data specified in ./espeon.conf if no arguments are provided; upload the specified file if an argument is provided',
+  description = 'Upload the source and data specified in ./espeon.conf',
 
   execute = function(arg)
     local config = load_config()

@@ -12,5 +12,15 @@ return function()
     os.exit(1)
   end
 
+  assert(config.target, "espeon.conf missing required field 'target'")
+  assert(config.firmware, "espeon.conf missing required field 'firmware'")
+  assert(config.source, "espeon.conf missing required field 'source'")
+
+  for _, field in ipairs({ 'target', 'firmware', 'source' }) do
+    assert(config[field], "espeon.conf missing required field '" .. field .. "'")
+  end
+
+  assert(config.target == 'ESP8266' or config.target == 'ESP32', "The target specified in espeon.conf must match 'ESP8266' or 'ESP32'")
+
   return config
 end

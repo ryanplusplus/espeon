@@ -1,7 +1,7 @@
 local shell = require 'espeon.util.shell'
 
 return function()
-  local uname = shell('uname')
+  local uname = shell('uname', true)
   if uname:match('Darwin') then
     return 'mac'
   elseif uname:match('Linux') then

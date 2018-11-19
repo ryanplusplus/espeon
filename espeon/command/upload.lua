@@ -3,9 +3,11 @@ local exec = require 'espeon.util.exec'
 local load_config = require 'espeon.util.load_config'
 local detect_serial_port = require 'espeon.util.detect_serial_port'
 local shell = require 'espeon.util.shell'
+local amalg = require 'espeon.util.amalg'
 local compile = require 'espeon.util.compile'
 
 local init_lua = datafile.path('res/init.lua')
+local amalg_init_lua = datafile.path('res/amalg_init.lua')
 
 return {
   description = 'Upload the source and data specified in ./espeon.conf',
@@ -36,14 +38,24 @@ return {
         table.insert(sources, source)
       end
 
-      local bin = compile(sources, config.target)
+      if config.amalg then
+        local bin = compile(amalg(sources), config.target)
 
-      table.insert(commands, reset)
-      table.insert(commands, 'nodemcu-tool --port ' .. serial_port .. ' upload --remotename app.lc ' .. bin)
+        table.insert(commands, reset)
+        table.insert(commands, 'nodemcu-tool --port ' .. serial_port .. ' upload --remotename app.lc ' .. bin)
+      else
+        for _, source in ipairs(sources) do
+          local bin = compile(source, config.target)
+
+          table.insert(commands, reset)
+          table.insert(commands, 'nodemcu-tool --port ' .. serial_port .. ' upload --remotename ' .. source:gsub('lua$', 'lc') .. ' ' .. bin)
+        end
+      end
     end
 
+    local init = config.amalg and amalg_init_lua or init_lua
     table.insert(commands, reset)
-    table.insert(commands, 'nodemcu-tool --port ' .. serial_port .. ' upload ' .. init_lua)
+    table.insert(commands, 'nodemcu-tool --port ' .. serial_port .. ' upload --remotename init.lua ' .. init)
 
     exec(commands)
   end

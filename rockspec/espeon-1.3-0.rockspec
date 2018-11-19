@@ -1,8 +1,8 @@
 package = 'espeon'
-version = 'git-0'
+version = '1.3-0'
 source = {
-  url = 'git://github.com/ryanplusplus/espeon',
-  branch = 'master'
+  url = 'https://github.com/ryanplusplus/espeon/archive/v1.3-0.tar.gz',
+  dir = 'espeon-1.3-0'
 }
 description = {
   summary = 'Tool for working with ESP8266/ESP32 + NodeMCU projects',

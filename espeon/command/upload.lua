@@ -49,6 +49,7 @@ return {
       if config.lfs then
         exec(try_hard('nodemcu-tool --port ' .. serial_port .. ' upload ' .. lfs_probe_lua))
         local base, mapped = shell(try_hard('nodemcu-tool --port ' .. serial_port .. ' run lfs_probe.lua')):match('\n%d+\t(%d+)\t(%d+)')
+        exec(try_hard('nodemcu-tool --port ' .. serial_port .. ' remove lfs_probe.lua'))
 
         local lfs = build_lfs(sources, base)
         table.insert(commands, try_hard('esptool.py --baud 115200 --port ' .. serial_port .. ' write_flash ' .. mapped .. ' ' .. lfs))

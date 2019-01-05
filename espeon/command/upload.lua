@@ -4,10 +4,16 @@ local load_config = require 'espeon.util.load_config'
 local detect_serial_port = require 'espeon.util.detect_serial_port'
 local shell = require 'espeon.util.shell'
 local amalg = require 'espeon.util.amalg'
+local build_lfs = require 'espeon.util.build_lfs'
 local compile = require 'espeon.util.compile'
 
 local init_lua = datafile.path('res/init.lua')
 local amalg_init_lua = datafile.path('res/amalg_init.lua')
+local lfs_init_lua = datafile.path('res/lfs_init.lua')
+
+local function try_hard(command)
+  return command .. ' || ' .. command .. ' || ' .. command
+end
 
 return {
   description = 'Upload the source and data specified in ./espeon.conf',
@@ -18,16 +24,16 @@ return {
     local source = table.concat(config.source or {}, ' ')
     local data = table.concat(config.data or {}, ' ')
 
-    local reset = 'nodemcu-tool --port ' .. serial_port .. ' reset && sleep 1.4'
+    local reset = 'nodemcu-tool --port ' .. serial_port .. ' reset && sleep 0.5'
 
     local commands = {
       reset,
-      'nodemcu-tool --port ' .. serial_port .. ' remove init.lua'
+      try_hard('nodemcu-tool --port ' .. serial_port .. ' remove init.lua')
     }
 
     if data ~= '' then
       table.insert(commands, reset)
-      table.insert(commands, 'nodemcu-tool --port ' .. serial_port .. ' upload --keeppath ' .. data)
+      table.insert(commands, try_hard('nodemcu-tool --port ' .. serial_port .. ' upload --keeppath ' .. data))
     end
 
     if source ~= '' then
@@ -38,24 +44,34 @@ return {
         table.insert(sources, source)
       end
 
-      if config.amalg then
-        local bin = compile(amalg(sources), config.target)
-
+      if config.lfs then
+        local lfs = build_lfs(sources, config.lfs.base_address)
+        table.insert(commands, try_hard('esptool.py --baud 115200 --port ' .. serial_port .. ' write_flash ' .. config.lfs.mapped_address .. ' ' .. lfs))
+      elseif config.amalg then
+        local bin = compile(amalg(sources))
         table.insert(commands, reset)
-        table.insert(commands, 'nodemcu-tool --port ' .. serial_port .. ' upload --remotename app.lc ' .. bin)
+        table.insert(commands, try_hard('nodemcu-tool --port ' .. serial_port .. ' upload --remotename app.lc ' .. bin))
       else
         for _, source in ipairs(sources) do
-          local bin = compile(source, config.target)
-
+          local bin = compile(source)
           table.insert(commands, reset)
-          table.insert(commands, 'nodemcu-tool --port ' .. serial_port .. ' upload --remotename ' .. source:gsub('lua$', 'lc') .. ' ' .. bin)
+          table.insert(commands, try_hard('nodemcu-tool --port ' .. serial_port .. ' upload --remotename ' .. source:gsub('lua$', 'lc') .. ' ' .. bin))
         end
       end
     end
 
-    local init = config.amalg and amalg_init_lua or init_lua
+    local init do
+      if config.lfs then
+        init = lfs_init_lua
+      elseif config.amalg then
+        init = amalg_init_lua
+      else
+        init = init_lua
+      end
+    end
+
     table.insert(commands, reset)
-    table.insert(commands, 'nodemcu-tool --port ' .. serial_port .. ' upload --remotename init.lua ' .. init)
+    table.insert(commands, try_hard('nodemcu-tool --port ' .. serial_port .. ' upload --remotename init.lua ' .. init))
 
     exec(commands)
   end

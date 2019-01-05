@@ -1,4 +1,4 @@
-tmr.create():alarm(1600, tmr.ALARM_SINGLE, function()
+tmr.create():alarm(500, tmr.ALARM_SINGLE, function()
   xpcall(function()
     dofile('app.lc')
   end, print)

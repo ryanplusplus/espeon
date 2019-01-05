@@ -22,5 +22,11 @@ return function()
 
   assert(config.target == 'ESP8266' or config.target == 'ESP32', "The target specified in espeon.conf must match 'ESP8266' or 'ESP32'")
 
+  if config.lfs then
+    assert(config.target == 'ESP8266', 'LFS is only supported for ESP8266 targets')
+    assert(config.lfs.base_address, "espeon.conf missing required field 'lfs.base_address'")
+    assert(config.lfs.mapped_address, "espeon.conf missing required field 'lfs.mapped_address'")
+  end
+
   return config
 end

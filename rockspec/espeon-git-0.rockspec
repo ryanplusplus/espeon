@@ -28,6 +28,7 @@ build = {
     ['espeon.command.upload'] = 'espeon/command/upload.lua',
     ['espeon.espeon'] = 'espeon/espeon.lua',
     ['espeon.util.amalg'] = 'espeon/util/amalg.lua',
+    ['espeon.util.build_lfs'] = 'espeon/util/build_lfs.lua',
     ['espeon.util.compile'] = 'espeon/util/compile.lua',
     ['espeon.util.detect_platform'] = 'espeon/util/detect_platform.lua',
     ['espeon.util.detect_serial_port'] = 'espeon/util/detect_serial_port.lua',

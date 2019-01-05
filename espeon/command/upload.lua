@@ -11,6 +11,8 @@ local init_lua = datafile.path('res/init.lua')
 local amalg_init_lua = datafile.path('res/amalg_init.lua')
 local lfs_init_lua = datafile.path('res/lfs_init.lua')
 
+local lfs_probe_lua = datafile.path('res/lfs_probe.lua')
+
 local function try_hard(command)
   return command .. ' || ' .. command .. ' || ' .. command
 end
@@ -45,8 +47,11 @@ return {
       end
 
       if config.lfs then
-        local lfs = build_lfs(sources, config.lfs.base_address)
-        table.insert(commands, try_hard('esptool.py --baud 115200 --port ' .. serial_port .. ' write_flash ' .. config.lfs.mapped_address .. ' ' .. lfs))
+        exec(try_hard('nodemcu-tool --port ' .. serial_port .. ' upload ' .. lfs_probe_lua))
+        local base, mapped = shell(try_hard('nodemcu-tool --port ' .. serial_port .. ' run lfs_probe.lua')):match('\n%d+\t(%d+)\t(%d+)')
+
+        local lfs = build_lfs(sources, base)
+        table.insert(commands, try_hard('esptool.py --baud 115200 --port ' .. serial_port .. ' write_flash ' .. mapped .. ' ' .. lfs))
       elseif config.amalg then
         local bin = compile(amalg(sources))
         table.insert(commands, reset)

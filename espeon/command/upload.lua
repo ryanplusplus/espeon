@@ -20,7 +20,7 @@ end
 return {
   description = 'Upload the source and data specified in ./espeon.conf',
 
-  execute = function(arg)
+  execute = function()
     local config = load_config()
     local serial_port = detect_serial_port()
     local source = table.concat(config.source or {}, ' ')

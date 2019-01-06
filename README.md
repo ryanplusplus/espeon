@@ -12,7 +12,7 @@ espeon install_dependencies
 ## Usage
 
 ```shell
-espeon <command> [arguments]
+espeon <command>
 ```
 
 ### Available Commands

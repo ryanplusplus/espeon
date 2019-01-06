@@ -26,12 +26,11 @@ return {
     local source = table.concat(config.source or {}, ' ')
     local data = table.concat(config.data or {}, ' ')
 
-    local reset = 'nodemcu-tool --port ' .. serial_port .. ' reset && sleep 0.5'
+    local reset = 'nodemcu-tool --port ' .. serial_port .. ' reset'
 
-    local commands = {
-      reset,
-      try_hard('nodemcu-tool --port ' .. serial_port .. ' remove init.lua')
-    }
+    exec({ reset, try_hard('nodemcu-tool --port ' .. serial_port .. ' remove init.lua'), reset })
+
+    local commands = {}
 
     if data ~= '' then
       table.insert(commands, reset)

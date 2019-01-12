@@ -14,7 +14,7 @@ local lfs_init_lua = datafile.path('res/lfs_init.lua')
 local lfs_probe_lua = datafile.path('res/lfs_probe.lua')
 
 local function try_hard(command)
-  return command .. ' || ' .. command .. ' || ' .. command
+  return command .. ' > /dev/null 2>&1 || ' .. command .. ' > /dev/null 2>&1 || ' .. command
 end
 
 return {
@@ -28,13 +28,17 @@ return {
 
     local reset = 'nodemcu-tool --port ' .. serial_port .. ' reset'
 
+    print('Preparing for upload...')
     exec({ reset, try_hard('nodemcu-tool --port ' .. serial_port .. ' remove init.lua'), reset })
 
-    local commands = {}
-
     if data ~= '' then
-      table.insert(commands, reset)
-      table.insert(commands, try_hard('nodemcu-tool --port ' .. serial_port .. ' upload --keeppath ' .. data))
+      local expanded_data = shell('echo ' .. data)
+
+      local datas = {}
+      for data in expanded_data:gmatch('%S+') do
+        print('Uploading ' .. data)
+        exec(try_hard('nodemcu-tool --port ' .. serial_port .. ' upload --keeppath ' .. data))
+      end
     end
 
     if source ~= '' then
@@ -46,21 +50,35 @@ return {
       end
 
       if config.lfs then
+        print('Uploading LFS image...')
+
         exec(try_hard('nodemcu-tool --port ' .. serial_port .. ' upload ' .. lfs_probe_lua))
-        local base, mapped = shell(try_hard('nodemcu-tool --port ' .. serial_port .. ' run lfs_probe.lua')):match('\n%w+\t(%d+)\t(%d+)')
-        exec(try_hard('nodemcu-tool --port ' .. serial_port .. ' remove lfs_probe.lua'))
+
+        local base, mapped
+        local attempts = 3
+        while attempts > 0 and not (base and mapped) do
+          pcall(function()
+            base, mapped = shell('nodemcu-tool --port ' .. serial_port .. ' run lfs_probe.lua'):match('\n%w+\t(%d+)\t(%d+)')
+          end)
+          attempts = attempts - 1
+        end
+
+        if not (base and mapped) then
+          print('Failed to detect LFS-capable firmware')
+          os.exit(1)
+        end
 
         local lfs = build_lfs(sources, base)
-        table.insert(commands, try_hard('esptool.py --baud 115200 --port ' .. serial_port .. ' write_flash ' .. mapped .. ' ' .. lfs))
+        exec('esptool.py --baud 115200 --port ' .. serial_port .. ' write_flash ' .. mapped .. ' ' .. lfs)
       elseif config.amalg then
+        print('Uploading source...')
         local bin = compile(amalg(sources))
-        table.insert(commands, reset)
-        table.insert(commands, try_hard('nodemcu-tool --port ' .. serial_port .. ' upload --remotename app.lc ' .. bin))
+        exec(try_hard('nodemcu-tool --port ' .. serial_port .. ' upload --remotename app.lc ' .. bin))
       else
         for _, source in ipairs(sources) do
+          print('Uploading ' .. source .. '...')
           local bin = compile(source)
-          table.insert(commands, reset)
-          table.insert(commands, try_hard('nodemcu-tool --port ' .. serial_port .. ' upload --remotename ' .. source:gsub('lua$', 'lc') .. ' ' .. bin))
+          exec(try_hard('nodemcu-tool --port ' .. serial_port .. ' upload --remotename ' .. source:gsub('lua$', 'lc') .. ' ' .. bin))
         end
       end
     end
@@ -75,9 +93,9 @@ return {
       end
     end
 
-    table.insert(commands, reset)
-    table.insert(commands, try_hard('nodemcu-tool --port ' .. serial_port .. ' upload --remotename init.lua ' .. init))
+    print('Finalizing upload...')
+    exec(try_hard('nodemcu-tool --port ' .. serial_port .. ' upload --remotename init.lua ' .. init))
 
-    exec(commands)
+    print()
   end
 }

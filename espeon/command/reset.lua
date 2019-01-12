@@ -6,6 +6,9 @@ return {
 
   execute = function()
     local serial_port = detect_serial_port()
+
+    print('Resetting...')
     exec('nodemcu-tool --port ' .. serial_port .. ' reset')
+    print()
   end
 }

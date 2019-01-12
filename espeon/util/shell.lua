@@ -1,4 +1,4 @@
-return function(command)
+return function(command, hide_error)
   local error_out = os.tmpname()
   local wrapped_command = command .. ' 2> ' .. error_out
 

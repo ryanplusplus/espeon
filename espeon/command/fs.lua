@@ -1,4 +1,5 @@
 local exec = require 'espeon.util.exec'
+local shell = require 'espeon.util.shell'
 local detect_serial_port = require 'espeon.util.detect_serial_port'
 
 return {
@@ -7,6 +8,6 @@ return {
   execute = function()
     local serial_port = detect_serial_port()
     exec('nodemcu-tool --port ' .. serial_port .. ' reset && sleep 1.5')
-    exec('nodemcu-tool --port ' .. serial_port .. ' fsinfo')
+    print(shell('nodemcu-tool --port ' .. serial_port .. ' fsinfo'))
   end
 }

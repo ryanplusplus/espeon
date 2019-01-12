@@ -9,9 +9,11 @@ return {
     local serial_port = detect_serial_port()
     local config = load_config()
 
+    print('Flashing firmware...')
+
     if type(config.firmware) == 'table' then
       for bin, offset in pairs(config.firmware) do
-      exec('esptool.py --baud 115200 --port ' .. serial_port .. ' write_flash ' .. offset .. ' ' .. bin)
+        exec('esptool.py --baud 115200 --port ' .. serial_port .. ' write_flash ' .. offset .. ' ' .. bin)
       end
     else
       local offset = (config.target == 'ESP32') and '0x10000' or '0x0'

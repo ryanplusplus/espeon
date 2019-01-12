@@ -6,6 +6,8 @@ return {
 
   execute = function()
     local serial_port = detect_serial_port()
+    print('Erasing flash...')
     exec('esptool.py --baud 115200 --port ' .. serial_port .. ' erase_flash')
+    print()
   end
 }

@@ -23,9 +23,10 @@ return {
     local data = table.concat(config.data or {}, ' ')
 
     local reset = 'nodemcu-tool --port ' .. serial_port .. ' reset'
+    local reset_and_wait = reset .. ' && sleep 1.0 && exit 1'
 
     local function try_hard(command)
-      return command .. ' > /dev/null 2>&1 || ' .. reset .. ' || sleep 1.0 || ' .. command .. ' > /dev/null 2>&1 || ' .. reset .. ' || sleep 1.0 || ' .. command
+      return command .. ' > /dev/null 2>&1 || (' .. reset_and_wait .. ') || ' .. command .. ' > /dev/null 2>&1 || (' .. reset_and_wait .. ') || ' .. command
     end
 
     print('Preparing for upload...')

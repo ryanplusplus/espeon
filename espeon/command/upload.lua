@@ -13,10 +13,6 @@ local lfs_init_lua = datafile.path('res/lfs_init.lua')
 
 local lfs_probe_lua = datafile.path('res/lfs_probe.lua')
 
-local function try_hard(command)
-  return command .. ' > /dev/null 2>&1 || ' .. command .. ' > /dev/null 2>&1 || ' .. command
-end
-
 return {
   description = 'Upload the source and data specified in ./espeon.conf',
 
@@ -27,6 +23,10 @@ return {
     local data = table.concat(config.data or {}, ' ')
 
     local reset = 'nodemcu-tool --port ' .. serial_port .. ' reset'
+
+    local function try_hard(command)
+      return command .. ' > /dev/null 2>&1 || ' .. reset .. ' || sleep 1.0 || ' .. command .. ' > /dev/null 2>&1 || ' .. reset .. ' || sleep 1.0 || ' .. command
+    end
 
     print('Preparing for upload...')
     exec({ reset, try_hard('nodemcu-tool --port ' .. serial_port .. ' remove init.lua'), reset })

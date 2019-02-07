@@ -12,7 +12,7 @@ description = {
 dependencies = {
   'amalg == 0.4-1',
   'lua >= 5.1',
-  'datafile == 0.4-1'
+  'datafile == 0.6-1'
 }
 build = {
   type = 'builtin',

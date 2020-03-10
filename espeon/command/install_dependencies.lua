@@ -9,8 +9,8 @@ return {
 
     if platform == 'linux' then
       exec({
-        'sudo apt install screen',
-        'sudo apt install python-pip',
+        'sudo apt-get install screen',
+        'sudo apt-get install python-pip',
         'sudo pip install esptool --upgrade',
         'which npm > /dev/null || sudo apt install nodejs',
         'npm install -g nodemcu-tool || sudo npm install -g nodemcu-tool'

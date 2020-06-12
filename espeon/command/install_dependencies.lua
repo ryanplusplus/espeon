@@ -11,7 +11,7 @@ return {
       exec({
         'sudo apt-get install screen',
         'sudo apt-get install python-pip',
-        'sudo pip install esptool --upgrade',
+        'sudo -H pip install esptool --upgrade',
         'which npm > /dev/null || sudo apt install nodejs',
         'npm install -g nodemcu-tool || sudo npm install -g nodemcu-tool'
       })

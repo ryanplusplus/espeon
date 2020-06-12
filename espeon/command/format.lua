@@ -9,7 +9,7 @@ return {
 
     print('Formatting filesystem...')
     exec('nodemcu-tool --port ' .. serial_port .. ' reset && sleep 1.5')
-    exec('nodemcu-tool --port ' .. serial_port .. ' mkfs')
+    exec('nodemcu-tool --port ' .. serial_port .. ' mkfs --noninteractive')
     print()
   end
 }

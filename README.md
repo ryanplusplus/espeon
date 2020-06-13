@@ -2,7 +2,6 @@
 Tool for working with ESP8266/ESP32 + NodeMCU projects
 
 ## Installation
-Install `pip` and `node`/`npm` then run:
 
 ```shell
 luarocks install espeon

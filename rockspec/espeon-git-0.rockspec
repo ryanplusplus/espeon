@@ -25,6 +25,7 @@ build = {
     ['espeon.command.init'] = 'espeon/command/init.lua',
     ['espeon.command.install_dependencies'] = 'espeon/command/install_dependencies.lua',
     ['espeon.command.reset'] = 'espeon/command/reset.lua',
+    ['espeon.command.run'] = 'espeon/command/run.lua',
     ['espeon.command.upload'] = 'espeon/command/upload.lua',
     ['espeon.espeon'] = 'espeon/espeon.lua',
     ['espeon.util.amalg'] = 'espeon/util/amalg.lua',

@@ -1,5 +1,5 @@
 # espeon
-Tool for working with ESP8266/ESP32 + NodeMCU projects
+Tool for working with ESP8266/ESP32 + NodeMCU projects. Currently supports float firmware.
 
 ## Installation
 

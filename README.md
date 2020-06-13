@@ -23,4 +23,5 @@ espeon <command>
   - `init` - Write a default `espeon.conf` to `.`
   - `install_dependencies` - Install all external dependencies
   - `reset` - Reset a connected ESP running NodeMCU
+  - `run` - Uploads application, resets, and opens a console
   - `upload` - Upload the source and data specified in `./espeon.conf`

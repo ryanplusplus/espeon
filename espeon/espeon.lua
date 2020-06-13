@@ -10,7 +10,8 @@ return function()
     init = require 'espeon.command.init',
     install_dependencies = require 'espeon.command.install_dependencies',
     reset = require 'espeon.command.reset',
-    upload = require 'espeon.command.upload'
+    run = require 'espeon.command.run',
+    upload = require 'espeon.command.upload',
   }
 
   if commands[command] then
